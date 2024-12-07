@@ -1,0 +1,202 @@
+[
+  {
+    "capacity": 40,
+    "name": "Nissan Leaf 2022 - Red",
+    "id": "EV1",
+    "dischargeRate": 6.6,
+    "totalDegradation": 0,
+    "initialDegradation": 1.1,
+    "degradationCoefficient": 0.0010526,
+    "isAvailable": true
+  },
+  {
+    "capacity": 72.6,
+    "id": "EV2",
+    "name": "Hyundai Ioniq 5 (2021) - Blue",
+    "dischargeRate": 11,
+    "totalDegradation": 0,
+    "initialDegradation": 0.08,
+    "degradationCoefficient": 0.0010484,
+    "isAvailable": true
+  },
+  {
+    "capacity": 75,
+    "id": "EV3",
+    "name": "Tesla Model 3 (2021) - White",
+    "dischargeRate": 11,
+    "totalDegradation": 0,
+    "initialDegradation": 4,
+    "degradationCoefficient": 0.0010467,
+    "isAvailable": true
+  },
+  {
+    "capacity": 82,
+    "id": "EV4",
+    "name": "Volkwagen ID.4 - Black",
+    "dischargeRate": 11,
+    "totalDegradation": 0,
+    "initialDegradation": 1,
+    "degradationCoefficient": 0.00104251,
+    "isAvailable": true
+  },
+  {
+    "capacity": 40,
+    "id": "EV5",
+    "name": "Nissan Leaf 2020 - Red",
+    "dischargeRate": 6.6,
+    "totalDegradation": 0,
+    "initialDegradation": 0.15,
+    "degradationCoefficient": 0.0010526,
+    "isAvailable": true
+  },
+  {
+    "capacity": 40,
+    "name": "Nissan Leaf 2022 - Red",
+    "id": "EV6",
+    "dischargeRate": 6.6,
+    "totalDegradation": 0,
+    "initialDegradation": 0.12,
+    "degradationCoefficient": 0.0010526,
+    "isAvailable": true
+  },
+  {
+    "capacity": 72.6,
+    "id": "EV7",
+    "name": "Hyundai Ioniq 5 (2021) - Blue",
+    "dischargeRate": 11,
+    "totalDegradation": 0,
+    "initialDegradation": 0.9,
+    "degradationCoefficient": 0.0010484,
+    "isAvailable": true
+  },
+  {
+    "capacity": 75,
+    "id": "EV8",
+    "name": "Tesla Model 3 (2021) - White",
+    "dischargeRate": 11,
+    "totalDegradation": 0,
+    "initialDegradation": 6,
+    "degradationCoefficient": 0.0010467,
+    "isAvailable": true
+  },
+  {
+    "capacity": 82,
+    "id": "EV9",
+    "name": "Volkwagen ID.4 - Black",
+    "dischargeRate": 11,
+    "totalDegradation": 0,
+    "initialDegradation": 1.2,
+    "degradationCoefficient": 0.00104251,
+    "isAvailable": true
+  },
+  {
+    "capacity": 40,
+    "id": "EV10",
+    "name": "Nissan Leaf 2020 - Red",
+    "dischargeRate": 6.6,
+    "totalDegradation": 0,
+    "initialDegradation": 4.4,
+    "degradationCoefficient": 0.0010526,
+    "isAvailable": true
+  },
+  {
+    "capacity": 40,
+    "id": "EV11",
+    "name": "Nissan Leaf 2020 - Red",
+    "dischargeRate": 6.6,
+    "totalDegradation": 0.15,
+    "initialDegradation": 1.2,
+    "degradationCoefficient": 0.0010526,
+    "isAvailable": true
+  },
+  {
+    "capacity": 72.6,
+    "id": "EV12",
+    "name": "Hyundai Ioniq 5 (2021) - Blue",
+    "dischargeRate": 11,
+    "totalDegradation": 0,
+    "initialDegradation": 0.12,
+    "degradationCoefficient": 0.0010484,
+    "isAvailable": true
+  },
+  {
+    "capacity": 75,
+    "id": "EV13",
+    "name": "Tesla Model 3 (2021) - White",
+    "dischargeRate": 11,
+    "totalDegradation": 0,
+    "initialDegradation": 0.01,
+    "degradationCoefficient": 0.0010467,
+    "isAvailable": true
+  },
+  {
+    "capacity": 82,
+    "id": "EV14",
+    "name": "Volkwagen ID.4 - Black",
+    "dischargeRate": 11,
+    "totalDegradation": 0,
+    "initialDegradation": 2.2,
+    "degradationCoefficient": 0.00104251,
+    "isAvailable": true
+  },
+  {
+    "capacity": 40,
+    "id": "EV15",
+    "name": "Nissan Leaf 2020 - Red",
+    "dischargeRate": 6.6,
+    "totalDegradation": 0,
+    "initialDegradation": 1.3,
+    "degradationCoefficient": 0.0010526,
+    "isAvailable": true
+  },
+  {
+    "capacity": 40,
+    "id": "EV16",
+    "name": "Nissan Leaf 2020 - Red",
+    "dischargeRate": 6.6,
+    "totalDegradation": 0,
+    "initialDegradation": 0.15,
+    "degradationCoefficient": 0.0010526,
+    "isAvailable": true
+  },
+  {
+    "capacity": 72.6,
+    "id": "EV17",
+    "name": "Hyundai Ioniq 5 (2021) - Blue",
+    "dischargeRate": 11,
+    "totalDegradation": 0,
+    "initialDegradation": 0.08,
+    "degradationCoefficient": 0.0010484,
+    "isAvailable": true
+  },
+  {
+    "capacity": 75,
+    "id": "EV18",
+    "name": "Tesla Model 3 (2021) - White",
+    "dischargeRate": 11,
+    "totalDegradation": 0,
+    "initialDegradation": 4,
+    "degradationCoefficient": 0.0010467,
+    "isAvailable": true
+  },
+  {
+    "capacity": 82,
+    "id": "EV19",
+    "name": "Volkwagen ID.4 - Black",
+    "dischargeRate": 11,
+    "totalDegradation": 0,
+    "initialDegradation": 1,
+    "degradationCoefficient": 0.00104251,
+    "isAvailable": true
+  },
+  {
+    "capacity": 40,
+    "id": "EV20",
+    "name": "Nissan Leaf 2020 - Red",
+    "dischargeRate": 6.6,
+    "totalDegradation": 0,
+    "initialDegradation": 0,
+    "degradationCoefficient": 0.0010526,
+    "isAvailable": true
+  }
+]
