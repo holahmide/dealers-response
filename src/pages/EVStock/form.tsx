@@ -2,14 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { Car } from "../../context/interfaces";
 import Input from "../../components/Form/Input";
 import { useAppContext } from "../../context";
-
-const Label = ({ label, required }: { label: string; required?: boolean }) => {
-  return (
-    <label className="block text-sm font-medium text-gray-700 mb-2">
-      {label}
-    </label>
-  );
-};
+import Label from "../../components/Form/Label";
 
 const EVForm = ({ car, closeModal }: { car: Car | null; closeModal: any }) => {
   const [name, setName] = useState<string>(car?.name || "");
@@ -38,17 +31,15 @@ const EVForm = ({ car, closeModal }: { car: Car | null; closeModal: any }) => {
     });
 
     updateCar(car?.id || "", {
-      // name,
-      // dischargeRate: Number(dischargeRate),
-      // capacity: Number(capacity),
-      // initialDegradation: Number(initialDegradation),
-      // currentDegradation: Number(currentDegradation),
+      name,
+      dischargeRate: Number(dischargeRate),
+      capacity: Number(capacity),
+      initialDegradation: Number(initialDegradation),
+      currentDegradation: Number(currentDegradation),
       soc: Number(soc),
     });
 
     closeModal();
-
-    // Handle form submission logic here, for example:
   };
 
   return (
@@ -72,7 +63,7 @@ const EVForm = ({ car, closeModal }: { car: Car | null; closeModal: any }) => {
               type="text"
               value={capacity}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setCapacity(e.target.value)
+                setCapacity(Number(e.target.value))
               }
               required
             />
@@ -82,7 +73,9 @@ const EVForm = ({ car, closeModal }: { car: Car | null; closeModal: any }) => {
             <Input
               type="number"
               value={dischargeRate}
-              onChange={(e) => setDischargeRate(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setDischargeRate(Number(e.target.value))
+              }
               required
             />
           </div>
@@ -91,7 +84,9 @@ const EVForm = ({ car, closeModal }: { car: Car | null; closeModal: any }) => {
             <Input
               type="number"
               value={initialDegradation}
-              onChange={(e) => setInitialDegradation(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setInitialDegradation(Number(e.target.value))
+              }
               required
             />
           </div>
@@ -100,7 +95,9 @@ const EVForm = ({ car, closeModal }: { car: Car | null; closeModal: any }) => {
             <Input
               type="number"
               value={currentDegradation}
-              onChange={(e) => setCurrentDegradation(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setCurrentDegradation(Number(e.target.value))
+              }
               required
             />
           </div>
@@ -109,7 +106,9 @@ const EVForm = ({ car, closeModal }: { car: Car | null; closeModal: any }) => {
             <Input
               type="number"
               value={soc}
-              onChange={(e) => setSoc(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setSoc(Number(e.target.value))
+              }
             />
           </div>
         </div>

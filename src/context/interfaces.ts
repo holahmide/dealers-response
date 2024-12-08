@@ -1,6 +1,24 @@
+export interface Event {
+  demand: number;
+  timeInHrs: number;
+  participationPayment: number;
+  capacityPayment: number;
+  maxDOD: number;
+  chargePoints: number;
+}
+
+export interface EventRecord {
+  totalAvailable: number;
+  event: Event;
+  chargers: { evs: Car[] }[];
+}
+
 export interface AppState {
   cars: Car[];
+  events: EventRecord[];
   updateCar: (carId: string, newCar: Partial<Car>) => void;
+  loadCars: (carJson: any) => void;
+  recordEvent: (event: any) => void;
 }
 
 export interface Car {
@@ -15,16 +33,8 @@ export interface Car {
   soc: number;
 }
 
-export interface Event {
-  demand: number;
-  timeInHrs: number;
-  participationPayment: number;
-  capacityPayment: number;
-  maxDOD: number;
-  chargePoints: number;
-}
-
 export interface AppData {
   cars: Car[];
-  events: Event[];
+  events: EventRecord[];
+  initialLoad: boolean;
 }

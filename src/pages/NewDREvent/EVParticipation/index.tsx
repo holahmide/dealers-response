@@ -1,23 +1,42 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../../context";
 import { Car, Event } from "../../../context/interfaces";
 
 const EVParticipation = ({
   chargers,
   totalAvailable,
   event,
+  isNewRecord,
+  timestamp,
 }: {
   chargers: { evs: Car[] }[];
   totalAvailable: number;
   event: Event;
+  isNewRecord?: boolean;
+  timestamp?: string;
 }) => {
-  const carsUsed: Car[] = chargers
-    .reduce((acc: Car[], val) => [...acc, ...val.evs], [])
-    .filter((ev) => !!ev);
+  const { recordEvent } = useAppContext();
+
+  const navigate = useNavigate();
+
+  const carsUsed: Car[] = chargers.reduce(
+    (acc: Car[], val) => [...acc, ...val.evs],
+    []
+  );
+
+  const onRecordEvent = () => {
+    recordEvent({ event, chargers, totalAvailable });
+    navigate("/events");
+  };
+
+  const time = new Date(timestamp || "").toLocaleString("en-US", {
+    timeZone: "UTC",
+  });
 
   return (
     <div>
       <p className="text-green-600 font-bold text-2xl">
-        Participation Estimate 📈
+        Participation Estimate 📈 {!isNewRecord ? `for ${time}` : ""}
       </p>
 
       <div className="mt-4">
@@ -50,18 +69,22 @@ const EVParticipation = ({
             ?.toFixed(5)}{" "}
           %
         </span>
+        <br />
       </div>
 
       <div className="mt-4 flex flex-col gap-6">
         {chargers
           .filter((charger) => charger.evs.filter((ev) => !!ev).length > 0)
           .map(({ evs: cars }, index) => (
-            <div>
-              <p className="mb-2">Charger {index + 1}</p>
+            <div key={index}>
+              <p className="mb-2 font-bold">Charger {index + 1}</p>
               {cars
                 .filter((ev) => !!ev)
                 .map((car, index) => (
-                  <div key={index} className="bg-white shadow-md p-2 border-t">
+                  <div
+                    key={`${index}-car`}
+                    className="bg-white shadow-md p-2 border-t"
+                  >
                     <div className="flex items-center justify-between gap-4 mb-2">
                       <div className="text-truncate">{car.name}</div>
                     </div>
@@ -121,6 +144,18 @@ const EVParticipation = ({
             </div>
           ))}
       </div>
+
+      {isNewRecord && (
+        <div>
+          <button
+            className="mt-6 bg-primary text-black"
+            type="button"
+            onClick={onRecordEvent}
+          >
+            Accept Selection & Record
+          </button>
+        </div>
+      )}
     </div>
   );
 };

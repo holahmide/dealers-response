@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Input from "../../components/Form/Input";
 import EVParticipation from "./EVParticipation";
 import { useAppContext } from "../../context";
@@ -17,13 +17,13 @@ const NewDREvent = () => {
   // State management for each input field
   const [eventCapacity, setEventCapacity] = useState<number>(400);
   const [duration, setDuration] = useState<number>(3);
-  const [rewardPerHour, setRewardPerHour] = useState(1.1);
+  const [rewardPerHour, setRewardPerHour] = useState(2);
   const [eventDate, setEventDate] = useState("");
   const [chargePoints, setChargePoints] = useState<number>(10);
   const [maxDOD, setMaxDOD] = useState<number>(80);
 
   const [currentParticipation, setCurrentParticipation] = useState<null | {
-    chargers: { evs: Car[] };
+    chargers: { evs: Car[] }[];
     totalAvailable: number;
     event: Event;
   }>(null);
@@ -68,18 +68,22 @@ const NewDREvent = () => {
               <div className="w-full">
                 <Label label="Event Capacity (kWhr)" />
                 <Input
-                  type="text"
+                  type="number"
                   value={eventCapacity}
-                  onChange={(e) => setEventCapacity(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setEventCapacity(Number(e.target.value))
+                  }
                   required
                 />
               </div>
               <div className="w-full">
                 <Label label="Duration (Hours)" />
                 <Input
-                  type="text"
+                  type="number"
                   value={duration}
-                  onChange={(e) => setDuration(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setDuration(Number(e.target.value))
+                  }
                   required
                 />
               </div>
@@ -88,7 +92,9 @@ const NewDREvent = () => {
                 <Input
                   type="number"
                   value={rewardPerHour}
-                  onChange={(e) => setRewardPerHour(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setRewardPerHour(Number(e.target.value))
+                  }
                   required
                 />
               </div>
@@ -97,7 +103,9 @@ const NewDREvent = () => {
                 <Input
                   type="number"
                   value={chargePoints}
-                  onChange={(e) => setChargePoints(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setChargePoints(Number(e.target.value))
+                  }
                   required
                 />
               </div>
@@ -106,7 +114,9 @@ const NewDREvent = () => {
                 <Input
                   type="date"
                   value={eventDate}
-                  onChange={(e) => setEventDate(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setEventDate(e.target.value)
+                  }
                 />
               </div>
               <div className="w-full">
@@ -114,7 +124,9 @@ const NewDREvent = () => {
                 <Input
                   type="number"
                   value={maxDOD}
-                  onChange={(e) => setMaxDOD(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setMaxDOD(Number(e.target.value))
+                  }
                   required
                 />
               </div>
@@ -129,9 +141,10 @@ const NewDREvent = () => {
         {currentParticipation && (
           <div className="mt-16">
             <EVParticipation
-              chargers={currentParticipation.chargers}
+              chargers={currentParticipation.chargers || []}
               totalAvailable={currentParticipation.totalAvailable}
               event={currentParticipation.event}
+              isNewRecord={true}
             />
           </div>
         )}

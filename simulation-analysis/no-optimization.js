@@ -1,147 +1,126 @@
-import evs from "./evs.json";
-import events from "./events.json";
+import evs from "./evs.json" assert { type: "json" };
+import events from "./events.json" assert { type: "json" };
 
-const drEvents = [...events, ...events, ...events, ...events];
+const CHARGING_SPOTS = 20;
 
-const charging_spots = 20;
+/* Simulate Multiple 6months DR Events */
+const drEvents = Array(4).fill(events).flat();
 
-const maximumDOD = 0.8;
-
-function getRandomObject(arr) {
-  if (arr.length === 0) {
-    throw new Error("Array is empty");
-  }
-  const randomIndex = Math.floor(Math.random() * arr.length);
-  return arr[randomIndex];
-}
-
-const startingDegradation = evs.reduce(
-  (acc, ev) => acc + ev.totalDegradation + ev.initialDegradation,
-  0
-);
-
-const selectMaximumDOD = (ev, totalAvailable) => {
-  return Math.floor(Math.min(totalAvailable, ev.capacity * maximumDOD));
+// Utility to select a random object from an array
+const getRandomObject = (arr) => {
+  if (!arr.length) throw new Error("Array is empty");
+  return arr[Math.floor(Math.random() * arr.length)];
 };
 
-const calculateCycleNumber = (ev, totalUsed) => {
-  return Math.ceil(totalUsed / ev.capacity);
+// Calculate Starting Degradation
+const calculateStartingDegradation = (evList) =>
+  evList.reduce(
+    (acc, ev) => acc + ev.totalDegradation + ev.initialDegradation,
+    0
+  );
+console.log("Starting Degradation:", calculateStartingDegradation(evs), "%");
+
+/*
+ * Calculate Maximum Contribution of EV based on maxiumum DOD and total available energy based
+ * on EV capacity and discharge rate per hour.
+ */
+const calculateMaxContribution = (ev, totalAvailable) => {
+  return Math.floor(Math.min(totalAvailable, ev.capacity));
 };
 
-const selectEVs = (totalRequired, totalTime, chargingSpots) => {
-  const selectedEvs = [];
-  const remaningEvs = evs.map((ev) => {
-    const totalUsedKwh = selectMaximumDOD(
+/* Calculate the number of cycles based on the total energy used and EV capacity */
+const calculateCycleCount = (ev, totalUsed) =>
+  Math.ceil(totalUsed / ev.capacity);
+
+// Select EVs to meet total energy demand
+const selectEVs = (vehicles, totalRequired, totalTime, chargingSpots) => {
+  /* Compute total degradation for each EV */
+  const preparedEvs = vehicles.map((ev) => {
+    const totalUsedKwh = calculateMaxContribution(
       ev,
-      ev.dischargeRate * totalTime,
-      maximumDOD
+      ev.dischargeRate * totalTime
     );
+    const cycles = calculateCycleCount(ev, totalUsedKwh);
+    const newDegradation = ev.degradationCoefficient * cycles * totalUsedKwh;
+
     return {
       ...ev,
       maxContribution: totalUsedKwh,
       totalDegradation:
-        ev.initialDegradation +
-        ev.totalDegradation +
-        Number(ev.degradationCoefficient * totalUsedKwh),
-      currentDegradation: Number(
-        ev.degradationCoefficient *
-          calculateCycleNumber(ev, totalUsedKwh) *
-          totalUsedKwh
-      ),
+        ev.initialDegradation + ev.totalDegradation + newDegradation,
+      currentDegradation: newDegradation,
     };
   });
+  const selectedEvs = [];
+  let totalAvailableEnergy = 0;
 
-  let totalAvaialbleEnergy = 0;
-
-  /* Select EVs by random */
+  // Randomly select EVs
   while (
-    totalAvaialbleEnergy < totalRequired &&
-    remaningEvs.length > 0 &&
+    totalAvailableEnergy < totalRequired &&
+    preparedEvs.length > 0 &&
     selectedEvs.length < chargingSpots
   ) {
-    chosenEV = getRandomObject(remaningEvs);
-    remaningEvs.splice(
-      remaningEvs.findIndex((ev) => ev.id === chosenEV.id),
-      1
-    );
+    const chosenEV = getRandomObject(preparedEvs);
+    preparedEvs.splice(preparedEvs.indexOf(chosenEV), 1);
     selectedEvs.push(chosenEV);
-    totalAvaialbleEnergy += chosenEV.maxContribution;
+    totalAvailableEnergy += chosenEV.maxContribution;
   }
-  /* Select EVs by random */
 
-  /* Optimize EVs to match total required energy */
-  while (totalAvaialbleEnergy < totalRequired && remaningEvs.length > 0) {
-    const sortedSelectedEvs = selectedEvs.sort(
-      (a, b) => a.maxContribution - b.maxContribution
-    );
+  /* If total available energy is still less than required, optimize for maximum delivery to represent more realworld scenarios */
+  while (totalAvailableEnergy < totalRequired && preparedEvs.length > 0) {
+    selectedEvs.sort((a, b) => a.maxContribution - b.maxContribution);
+    selectedEvs.shift();
+    const nextBetterEV = getRandomObject(preparedEvs);
 
-    const nextBetterEV = getRandomObject(remaningEvs);
-    const lowestContributor = sortedSelectedEvs[0];
-
-    remaningEvs.splice(
-      remaningEvs.findIndex((ev) => ev.id === nextBetterEV.id),
-      1
-    );
-
-    selectedEvs.splice(
-      selectedEvs.findIndex((ev) => ev.id === lowestContributor.id),
-      1
-    );
-
+    preparedEvs.splice(preparedEvs.indexOf(nextBetterEV), 1);
     selectedEvs.push(nextBetterEV);
-    totalAvaialbleEnergy = selectedEvs.reduce(
+
+    totalAvailableEnergy = selectedEvs.reduce(
       (acc, ev) => acc + ev.maxContribution,
       0
     );
   }
-  /* END */
 
   return selectedEvs;
 };
 
-drEvents.forEach((element, index) => {
-  const selectedEvs = selectEVs(
-    element.demand,
-    element.timeInHrs,
-    charging_spots
-  );
+/* Simulate DR Events */
+drEvents.forEach((event, index) => {
+  const { demand, timeInHrs } = event;
+
+  const selectedEvs = selectEVs(evs, demand, timeInHrs, CHARGING_SPOTS);
 
   console.table(selectedEvs);
 
-  // Update each EV selected Degradation in the original EV dataset
+  // Update degradation for selected EVs
   selectedEvs.forEach((ev) => {
-    evs.find((evData) => evData.id === ev.id).totalDegradation +=
-      ev.currentDegradation;
+    const evData = evs.find((evItem) => evItem.id === ev.id);
+    if (evData) evData.totalDegradation += ev.currentDegradation;
   });
 
+  const totalCapacity = selectedEvs.reduce(
+    (acc, ev) => acc + ev.maxContribution,
+    0
+  );
+
   console.log(
-    "Total Avaialble capacity of event",
-    index + 1,
-    ": ",
-    selectedEvs.reduce((acc, ev) => acc + ev.maxContribution, 0),
-    "kWh out of",
-    element.demand,
-    "\n\n"
+    `Event ${
+      index + 1
+    }: Provided ${totalCapacity} kWh out of ${demand} kWh demand\n`
   );
 });
 
 console.table(
   evs.map((ev) => ({
     ...ev,
-    fianlDegradation: ev.totalDegradation + ev.initialDegradation,
+    finalDegradation: ev.totalDegradation + ev.initialDegradation,
   }))
 );
 
-console.log("Starting Degradation", startingDegradation, "%");
-
+const endingDegradation = calculateStartingDegradation(evs);
+console.log("Ending Degradation:", endingDegradation, "%");
 console.log(
-  "Ending Degradation",
-  evs.reduce((acc, ev) => acc + ev.totalDegradation + ev.initialDegradation, 0),
-  "%"
-);
-
-console.log(
-  "Total DR Degradation",
+  "Total DR Degradation:",
   evs.reduce((acc, ev) => acc + ev.totalDegradation, 0),
   "%"
 );
