@@ -31,6 +31,9 @@ export interface Car {
   degradationCoefficient: number;
   isAvailable: boolean;
   soc: number;
+
+  maxContribution: number;
+  currentDegradation: number;
 }
 
 export interface AppData {

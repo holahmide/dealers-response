@@ -133,8 +133,10 @@ const EVParticipation = ({
                       <div>
                         <span className="text-[11px] text-gray-700">DOD:</span>
                         <div className="-mt-1">
-                          {(car.maxContribution / car.capacity)?.toFixed(2) *
-                            100}
+                          {(
+                            (car.maxContribution / car.capacity) *
+                            100
+                          )?.toFixed(2)}
                           %
                         </div>
                       </div>

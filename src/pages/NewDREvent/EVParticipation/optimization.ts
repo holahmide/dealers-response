@@ -1,13 +1,7 @@
 import { Car } from "../../../context/interfaces";
 
-interface EV extends Car {
-  maxContribution: number;
-  totalDegradation: number;
-  currentDegradation: number;
-}
-
 const selectMaximumDOD = (
-  ev: EV,
+  ev: Car,
   totalAvailable: number,
   maximumDOD: number,
   soc: number
@@ -19,15 +13,15 @@ const selectMaximumDOD = (
   return Math.floor(Math.min(totalAvailable, ev.capacity * socAvailable));
 };
 
-const calculateCycleNumber = (ev: EV, totalUsed: number) => {
+const calculateCycleNumber = (ev: Car, totalUsed: number) => {
   return Math.ceil(totalUsed / ev.capacity);
 };
 
 const computeEvsDegradation = (
-  cars: EV[],
+  cars: Car[],
   totalTime: number,
   maximumDOD: number
-) => {
+): Car[] => {
   return cars.map((ev) => {
     const totalUsedKwh = selectMaximumDOD(
       ev,
@@ -53,13 +47,13 @@ const computeEvsDegradation = (
 };
 
 export const selectEVs = (
-  cars: EV[],
+  cars: Car[],
   totalRequired: number,
   totalTime: number,
   chargingSpots: number,
   maximumDOD: number
 ) => {
-  const selectedEvs: EV[] = [];
+  const selectedEvs: Car[] = [];
 
   /* Sort EV by proposed degradation */
   let remaningEvs = computeEvsDegradation(cars, totalTime, maximumDOD).sort(
@@ -76,12 +70,12 @@ export const selectEVs = (
     selectedEvs.length < chargingSpots
   ) {
     const chosenEV = remaningEvs.shift();
-    selectedEvs.push(chosenEV);
+    if (chosenEV) selectedEvs.push(chosenEV);
     totalAvaialbleEnergy += chosenEV?.maxContribution || 0;
   }
   /* END Select EVs by degradation */
 
-  let removedEVs: EV[] = [];
+  let removedEVs: Car[] = [];
 
   /* Optimize EVs to match total required energy */
   while (totalAvaialbleEnergy < totalRequired && remaningEvs.length > 0) {
@@ -116,7 +110,7 @@ export const selectEVs = (
         ),
       ];
 
-      selectedEvs.push(nextBetterEV);
+      if (nextBetterEV) selectedEvs.push(nextBetterEV);
 
       totalAvaialbleEnergy = selectedEvs.reduce(
         (acc, ev) => acc + ev?.maxContribution || 0,

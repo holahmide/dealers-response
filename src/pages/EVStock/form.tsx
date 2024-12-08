@@ -11,7 +11,7 @@ const EVForm = ({ car, closeModal }: { car: Car | null; closeModal: any }) => {
   const [initialDegradation, setInitialDegradation] = useState(
     car?.initialDegradation
   );
-  const [currentDegradation, setCurrentDegradation] = useState(
+  const [totalDegradation, setTotalDegradation] = useState(
     car?.totalDegradation
   );
   const [soc, setSoc] = useState<number>(car?.soc || 0);
@@ -26,7 +26,7 @@ const EVForm = ({ car, closeModal }: { car: Car | null; closeModal: any }) => {
       dischargeRate,
       capacity,
       initialDegradation,
-      currentDegradation,
+      totalDegradation,
       soc,
     });
 
@@ -35,7 +35,7 @@ const EVForm = ({ car, closeModal }: { car: Car | null; closeModal: any }) => {
       dischargeRate: Number(dischargeRate),
       capacity: Number(capacity),
       initialDegradation: Number(initialDegradation),
-      currentDegradation: Number(currentDegradation),
+      totalDegradation: Number(totalDegradation),
       soc: Number(soc),
     });
 
@@ -94,9 +94,9 @@ const EVForm = ({ car, closeModal }: { car: Car | null; closeModal: any }) => {
             <Label label="Current Degradation (%)" />
             <Input
               type="number"
-              value={currentDegradation}
+              value={totalDegradation}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setCurrentDegradation(Number(e.target.value))
+                setTotalDegradation(Number(e.target.value))
               }
               required
             />

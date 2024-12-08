@@ -1,20 +1,12 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Input from "../../components/Form/Input";
 import EVParticipation from "./EVParticipation";
 import { useAppContext } from "../../context";
 import { Car, Event } from "../../context/interfaces";
+import Label from "../../components/Form/Label";
 import { selectEVs } from "./EVParticipation/optimization";
 
-const Label = ({ label, required }: { label: string; required?: boolean }) => {
-  return (
-    <label className="block text-sm font-medium text-gray-700 mb-2">
-      {label}
-    </label>
-  );
-};
-
 const NewDREvent = () => {
-  // State management for each input field
   const [eventCapacity, setEventCapacity] = useState<number>(400);
   const [duration, setDuration] = useState<number>(3);
   const [rewardPerHour, setRewardPerHour] = useState(2);
@@ -30,9 +22,8 @@ const NewDREvent = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here, for example:
 
-    const { selectedEvs, totalAvaialbleEnergy, chargers } = selectEVs(
+    const { totalAvaialbleEnergy, chargers } = selectEVs(
       cars.filter((car) => car.isAvailable),
       Number(eventCapacity),
       Number(duration),
@@ -141,7 +132,7 @@ const NewDREvent = () => {
         {currentParticipation && (
           <div className="mt-16">
             <EVParticipation
-              chargers={currentParticipation.chargers || []}
+              chargers={currentParticipation.chargers}
               totalAvailable={currentParticipation.totalAvailable}
               event={currentParticipation.event}
               isNewRecord={true}
