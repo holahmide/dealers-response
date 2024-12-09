@@ -65,7 +65,7 @@ const EVParticipation = ({
         <span>
           Total Degradation for {carsUsed.length} cars:{" "}
           {carsUsed
-            .reduce((acc, ev) => acc + ev.currentDegradation, 0)
+            .reduce((acc, ev) => acc + (ev.currentDegradation || 0), 0)
             ?.toFixed(5)}{" "}
           %
         </span>
@@ -134,11 +134,15 @@ const EVParticipation = ({
                         <span className="text-[11px] text-gray-700">DOD:</span>
                         <div className="-mt-1">
                           {(
-                            (car.maxContribution / car.capacity) *
+                            ((car.maxContribution || 0) / car.capacity) *
                             100
                           )?.toFixed(2)}
                           %
                         </div>
+                      </div>
+                      <div>
+                        <span className="text-[11px] text-gray-700">SOC:</span>
+                        <div className="-mt-1">{car.soc}%</div>
                       </div>
                     </div>
                   </div>

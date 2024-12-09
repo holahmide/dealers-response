@@ -26,7 +26,7 @@ const calculateMaxContribution = (ev, totalAvailable) => {
 
 /* Calculate the number of cycles based on the total energy used and EV capacity */
 const calculateCycleCount = (ev, totalUsed) => {
-  return Math.ceil(totalUsed / ev.capacity);
+  return totalUsed / ev.capacity;
 };
 
 const selectEVs = (

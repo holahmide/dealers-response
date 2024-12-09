@@ -33,7 +33,7 @@ export interface Car {
   soc: number;
 
   maxContribution: number;
-  currentDegradation: number;
+  currentDegradation?: number;
 }
 
 export interface AppData {

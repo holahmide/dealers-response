@@ -23,7 +23,7 @@ const NewDREvent = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { totalAvaialbleEnergy, chargers } = selectEVs(
+    const { totalAvailableEnergy, chargers } = selectEVs(
       cars.filter((car) => car.isAvailable),
       Number(eventCapacity),
       Number(duration),
@@ -33,7 +33,7 @@ const NewDREvent = () => {
 
     setCurrentParticipation({
       chargers,
-      totalAvailable: totalAvaialbleEnergy,
+      totalAvailable: totalAvailableEnergy,
       event: {
         demand: Number(eventCapacity),
         timeInHrs: Number(duration),

@@ -29,8 +29,7 @@ const calculateMaxContribution = (ev, totalAvailable) => {
 };
 
 /* Calculate the number of cycles based on the total energy used and EV capacity */
-const calculateCycleCount = (ev, totalUsed) =>
-  Math.ceil(totalUsed / ev.capacity);
+const calculateCycleCount = (ev, totalUsed) => totalUsed / ev.capacity;
 
 // Select EVs to meet total energy demand
 const selectEVs = (vehicles, totalRequired, totalTime, chargingSpots) => {
