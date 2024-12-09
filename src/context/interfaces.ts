@@ -5,6 +5,7 @@ export interface Event {
   capacityPayment: number;
   maxDOD: number;
   chargePoints: number;
+  date?: string;
 }
 
 export interface EventRecord {

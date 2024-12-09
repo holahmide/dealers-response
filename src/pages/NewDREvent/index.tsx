@@ -1,10 +1,11 @@
 import { ChangeEvent, useState } from "react";
 import Input from "../../components/Form/Input";
-import EVParticipation from "./EVParticipation";
+import EVParticipationContainer from "./EVParticipation/Container";
 import { useAppContext } from "../../context";
 import { Car, Event } from "../../context/interfaces";
 import Label from "../../components/Form/Label";
 import { selectEVs } from "./EVParticipation/optimization";
+import dayjs from "dayjs";
 
 const NewDREvent = () => {
   const [eventCapacity, setEventCapacity] = useState<number>(400);
@@ -41,6 +42,7 @@ const NewDREvent = () => {
         maxDOD: Number(maxDOD) / 100,
         chargePoints: Number(chargePoints),
         capacityPayment: 0,
+        date: eventDate ? dayjs(eventDate).format("DD/MM/YYYY") : "",
       },
     });
   };
@@ -131,7 +133,7 @@ const NewDREvent = () => {
 
         {currentParticipation && (
           <div className="mt-16">
-            <EVParticipation
+            <EVParticipationContainer
               chargers={currentParticipation.chargers}
               totalAvailable={currentParticipation.totalAvailable}
               event={currentParticipation.event}

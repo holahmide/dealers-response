@@ -1,24 +1,23 @@
-import { useNavigate } from "react-router-dom";
-import { useAppContext } from "../../../context";
+import dayjs from "dayjs";
 import { Car, Event } from "../../../context/interfaces";
 
-const EVParticipation = ({
+const EVParticipationComponent = ({
   chargers,
   totalAvailable,
   event,
   isNewRecord,
   timestamp,
+  recordEvent,
+  navigate,
 }: {
   chargers: { evs: Car[] }[];
   totalAvailable: number;
   event: Event;
   isNewRecord?: boolean;
   timestamp?: string;
+  recordEvent: any;
+  navigate: any;
 }) => {
-  const { recordEvent } = useAppContext();
-
-  const navigate = useNavigate();
-
   const carsUsed: Car[] = chargers.reduce(
     (acc: Car[], val) => [...acc, ...val.evs],
     []
@@ -29,14 +28,12 @@ const EVParticipation = ({
     navigate("/events");
   };
 
-  const time = new Date(timestamp || "").toLocaleString("en-US", {
-    timeZone: "UTC",
-  });
+  const time = dayjs(timestamp).format("h:mm a, dddd MMMM D, YYYY");
 
   return (
     <div>
       <p className="text-green-600 font-bold text-2xl">
-        Participation Estimate 📈 {!isNewRecord ? `for ${time}` : ""}
+        Participation Estimate 📈 {!isNewRecord ? `recorded ${time}` : ""}
       </p>
 
       <div className="mt-4">
@@ -69,6 +66,8 @@ const EVParticipation = ({
             ?.toFixed(5)}{" "}
           %
         </span>
+        <br />
+        <span>Date: {event.date}</span>
         <br />
       </div>
 
@@ -166,4 +165,4 @@ const EVParticipation = ({
   );
 };
 
-export default EVParticipation;
+export default EVParticipationComponent;
