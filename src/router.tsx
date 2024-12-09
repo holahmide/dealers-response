@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/Home";
 import Layout from "./Layout";
 import NewDREvent from "./pages/NewDREvent";
-import DREventsPage from "./pages/DREvents";
+import DREventsPage from "./pages/DREvents/Container";
 
 const AppRoutes = () => {
   return (
