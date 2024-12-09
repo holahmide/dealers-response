@@ -67,3 +67,9 @@ yarn dev
 ```
 
 The server will start, and the application will be accessible at the URL displayed in the terminal (usually `http://localhost:5173`).
+
+### 4. To run tests
+
+```bash
+yarn test
+```
